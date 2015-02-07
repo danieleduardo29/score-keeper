@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" ng-app="scoreKeeperApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
     <link href="./css/site.css" rel="stylesheet">
   </head>
 
-  <body role="document">
+  <body role="document" ng-controller="ScoreController as scoreCtrl">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -44,38 +44,28 @@
     <div class="container theme-showcase" role="main">
 
 		<div class="page-header">
-			<h1>Game's name</h1>
+			<h1>{{gameName}}</h1>
 		</div>
 		<div class="">
 			<table class="table table-condensed">
 				<thead>
 				  <tr>
-					<th>First Player</th>
-					<th>Second Player</th>
-					<th>Third Player</th>
-					<th>Fourth Player</th>
+					<th>Round</th>
+					<th ng-repeat="player in players">{{player.name}}</th>
 				  </tr>
 				</thead>
 				<tbody>
-				  <tr>
-					<td>10</td>
-					<td>15</td>
-					<td>5</td>
-					<td>30</td>
-				  </tr>
-				  <tr>
-					<td>2</td>
-					<td>5</td>
-					<td>48</td>
-					<td>7</td>
+				  <tr ng-repeat="round in players[0].points">
+					<td>#{{$index+1}}</td>
+					<td ng-repeat="player in players">
+						{{player.points[$parent.$index].value}}
+					</td>
 				  </tr>
 				</tbody>
 				<tfoot>
 				  <tr>
-					<th>12</th>
-					<th>17</th>
-					<th>53</th>
-					<th>37</th>
+					<th>Total</th>
+					<th ng-repeat="player in players">{{player.total}}</th>
 				  </tr>
 				</tfoot>
 			</table>
@@ -83,35 +73,15 @@
 	
 		<form class="form-horizontal" submit="#">
 			
-			<div class="form-group">
-				<label for="input1" class="col-xs-4 control-label">First Player</label>
-				<div class="col-xs-8">
-					<input type="number" class="form-control" id="input1" placeholder="First Player">
+			<div class="form-group" ng-repeat="player in players">
+				<label for="input1" class="col-xs-4 col-sm-3 control-label">{{ player.name }}</label>
+				<div class="col-xs-8 col-sm-9">
+					<input type="number" class="form-control" id="input{{$index}}" placeholder="{{player.name}}">
 				</div>
 			</div>
 			
-			<div class="form-group">
-				<label for="input2" class="col-xs-4 control-label">Second Player</label>
-				<div class="col-xs-8">
-					<input type="number" class="form-control" id="input2" placeholder="First Player">
-				</div>
-			</div>
 			
-			<div class="form-group">
-				<label for="input3" class="col-xs-4 control-label">Third Player</label>
-				<div class="col-xs-8">
-					<input type="number" class="form-control" id="input3" placeholder="First Player">
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="input4" class="col-xs-4 control-label">Fourth Player</label>
-				<div class="col-xs-8">
-					<input type="number" class="form-control" id="input4" placeholder="First Player">
-				</div>
-			</div>
-			
-			<button type="button" class="btn btn-primary btn-lg btn-block">Add Points</button>
+			<button type="button" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
 		</form>
 		
 
@@ -123,5 +93,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./js/jquery-2.1.3.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+	<script src="./js/angular.min.js"></script>
+	<script src="./js/app.js"></script>
   </body>
 </html>
