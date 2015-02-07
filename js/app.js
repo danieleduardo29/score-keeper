@@ -1,35 +1,44 @@
-var phonecatApp = angular.module('scoreKeeperApp', []);
+var scoreKeeperApp = angular.module('scoreKeeperApp', []);
 
-phonecatApp.controller('ScoreController', function ($scope) {
-  $scope.gameName = "Game's name";
+scoreKeeperApp.controller('ScoreController', function ($scope) {
+	
+	$scope.game = {
+		nameIsAccepted : false,
+		isActive : false,
+		name : ""
+	};
+	var game = $scope.game;
+
+	$scope.players = [];
+	var players = $scope.players
+
+	$scope.newPlayer = {name: ''};
+	
+	var newPlayer = $scope.newPlayer;
+	
+	$("#newGameInput").focus();
   
-  $scope.players = [
-    {
-		'name': 'First Player',
-		'points': 
-				[
-					{ 'value': 0 },
-					{ 'value': 0 }
-				],
-		'total': 0
-	},
-    {
-		'name': 'Second Player',
-		'points': 
-				[
-					{ 'value': 10 },
-					{ 'value': 20 }
-				],
-		'total': 30
-	},
-	{
-		'name': 'Third Player',
-		'points': 
-				[
-					{ 'value': 30 },
-					{ 'value': 40 }
-				],
-		'total': 70
-	}
-  ];
+	
+	$scope.acceptGameName = function(name){
+		game.name = name;
+		game.nameIsAccepted = true;
+		$('#newPlayerInput').focus();
+	};
+	
+	$scope.addPlayer = function(newPlayerName){
+		//ToDo: validate dupe players
+		players.push(
+			{
+				'name': newPlayerName,
+				'points': [],
+				'total': 0
+			}
+		);
+		newPlayer.name = "";
+		$('#newPlayerInput').focus();
+	};
+	
+	$scope.startGame = function(){
+		game.isActive = true;
+	};
 });

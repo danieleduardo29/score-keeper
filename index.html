@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ScoreKeeper is a web app thet helps you to keep your scores in your games (Cards, Dominoes, board games, etc).">
+    <meta name="description" content="ScoreKeeper helps you to keep your scores in your games (Cards, Dominoes, board games, etc).">
     <meta name="author" content="Daniel Romero">
 
     <title>ScoreKeeper</title>
@@ -41,50 +41,96 @@
       </div>
     </nav>
 
-    <div class="container theme-showcase" role="main">
-
-		<div class="page-header">
-			<h1>{{gameName}}</h1>
-		</div>
-		<div class="">
-			<table class="table table-condensed">
-				<thead>
-				  <tr>
-					<th>Round</th>
-					<th ng-repeat="player in players">{{player.name}}</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr ng-repeat="round in players[0].points">
-					<td>#{{$index+1}}</td>
-					<td ng-repeat="player in players">
-						{{player.points[$parent.$index].value}}
-					</td>
-				  </tr>
-				</tbody>
-				<tfoot>
-				  <tr>
-					<th>Total</th>
-					<th ng-repeat="player in players">{{player.total}}</th>
-				  </tr>
-				</tfoot>
-			</table>
-		</div>
+    
+	<div class="container theme-showcase" role="main">
 	
-		<form class="form-horizontal" submit="#">
-			
-			<div class="form-group" ng-repeat="player in players">
-				<label for="input1" class="col-xs-4 col-sm-3 control-label">{{ player.name }}</label>
-				<div class="col-xs-8 col-sm-9">
-					<input type="number" class="form-control" id="input{{$index}}" placeholder="{{player.name}}">
+		<div class="jumbotron" ng-hide="game.nameIsAccepted">
+			<h1>ScoreKeeper</h1>
+			<p>
+				ScoreKeeper helps you to keep your scores in your games (Cards, Dominoes, board games, etc).
+			</p>
+			<form name="newGameForm" ng-submit="newGameForm.$valid &&  acceptGameName(newGameName)" novalidate class="clearfix">
+				<div class="form-group">
+					<label class="sr-only" for="newGameInput">What do you want to play?</label>
+					<input ng-model="newGameName" type="text" class="form-control" id="newGameInput" placeholder="What do you want to play?" required />
 				</div>
+				
+				<button type="submit" class="btn btn-primary pull-right">Start your game!</button>
+			</form>
+		</div>
+		
+		<div class="jumbotron" ng-show="game.nameIsAccepted && !game.isActive">
+			<h1>{{game.name}}</h1>
+			<p>
+				Add the players to start your game
+			</p>
+			<form name="addPlayersForm" ng-submit="addPlayersForm.$valid &&  addPlayer(newPlayer.name)" novalidate class="clearfix">
+				<div class="form-group">
+					<label class="sr-only" for="newPlayerInput">Player #{{players.length + 1}}</label>
+					<input ng-model="newPlayer.name" type="text" class="form-control" id="newPlayerInput" placeholder="Player #{{players.length + 1}}" required />
+				</div>
+				
+				<button type="submit" class="btn btn-primary pull-right">Add {{ newPlayerName }}</button>
+			</form>
+			
+			<div class="panel panel-success" ng-show="players.length > 0">
+				<div class="panel-heading">Players added</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="player in players">{{player.name}}</li>
+					</ul>
+				</div>
+				<form ng-submit="startGame()">
+					<button type="submit" class="btn btn-success btn-block">Start your Game!</button>
+				</form>
 			</div>
 			
-			
-			<button type="button" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
-		</form>
+		</div>
 		
-
+		<div id="mainScoreKeepe" ng-show="game.isActive">
+			<div class="page-header">
+				<h1>{{game.name}}</h1>
+			</div>
+			<div class="">
+				<table class="table table-condensed">
+					<thead>
+					  <tr>
+						<th>Round</th>
+						<th ng-repeat="player in players">{{player.name}}</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr ng-repeat="round in players[0].points">
+						<td>#{{$index+1}}</td>
+						<td ng-repeat="player in players">
+							{{player.points[$parent.$index].value}}
+						</td>
+					  </tr>
+					</tbody>
+					<tfoot>
+					  <tr>
+						<th>Total</th>
+						<th ng-repeat="player in players">{{player.total}}</th>
+					  </tr>
+					</tfoot>
+				</table>
+			</div>
+		
+			<form class="form-horizontal" submit="#">
+				
+				<div class="form-group" ng-repeat="player in players">
+					<label for="input1" class="col-xs-4 col-sm-3 control-label">{{ player.name }}</label>
+					<div class="col-xs-8 col-sm-9">
+						<input type="number" class="form-control" id="input{{$index}}" placeholder="{{player.name}}">
+					</div>
+				</div>
+				
+				
+				<button type="button" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
+			</form>
+		
+		</div> <!-- /mainScoreKeeper -->
+		
     </div> <!-- /container -->
 
 
