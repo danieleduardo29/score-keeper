@@ -34,7 +34,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#">New Game</a></li>
+            <li><a href="#" ng-click="startNewGame()">New Game</a></li>
             <li><a href="#">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -49,10 +49,10 @@
 			<p>
 				ScoreKeeper helps you to keep your scores in your games (Cards, Dominoes, board games, etc).
 			</p>
-			<form name="newGameForm" ng-submit="newGameForm.$valid &&  acceptGameName(newGameName)" novalidate class="clearfix">
+			<form name="newGameForm" ng-submit="newGameForm.$valid &&  acceptGameName()" novalidate class="clearfix">
 				<div class="form-group">
 					<label class="sr-only" for="newGameInput">What do you want to play?</label>
-					<input ng-model="newGameName" type="text" class="form-control" id="newGameInput" placeholder="What do you want to play?" required />
+					<input ng-model="newGame.Name" type="text" class="form-control" id="newGameInput" placeholder="What do you want to play?" required />
 				</div>
 				
 				<button type="submit" class="btn btn-primary pull-right">Start your game!</button>
@@ -64,10 +64,10 @@
 			<p>
 				Add the players to start your game
 			</p>
-			<form name="addPlayersForm" ng-submit="addPlayersForm.$valid &&  addPlayer(newPlayer.name)" novalidate class="clearfix">
+			<form name="addPlayersForm" ng-submit="addPlayersForm.$valid &&  addPlayer()" novalidate class="clearfix">
 				<div class="form-group">
 					<label class="sr-only" for="newPlayerInput">Player #{{players.length + 1}}</label>
-					<input ng-model="newPlayer.name" type="text" class="form-control" id="newPlayerInput" placeholder="Player #{{players.length + 1}}" required />
+					<input ng-model="newPlayer.Name" type="text" class="form-control" id="newPlayerInput" placeholder="Player #{{players.length + 1}}" required />
 				</div>
 				
 				<button type="submit" class="btn btn-primary pull-right">Add {{ newPlayerName }}</button>
@@ -87,7 +87,7 @@
 			
 		</div>
 		
-		<div id="mainScoreKeepe" ng-show="game.isActive">
+		<div id="mainScoreKeeper" ng-show="game.isActive">
 			<div class="page-header">
 				<h1>{{game.name}}</h1>
 			</div>
@@ -127,7 +127,9 @@
 				
 				<button type="submit" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
 			</form>
-		
+			<!--
+			<button type="button" class="btn btn-danger btn-lg btn-block" ng-click="startNewGame()">Start New Game</button>
+			-->
 		</div> <!-- /mainScoreKeeper -->
 		
     </div> <!-- /container -->

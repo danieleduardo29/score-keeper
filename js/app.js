@@ -2,40 +2,33 @@ var scoreKeeperApp = angular.module('scoreKeeperApp', []);
 
 scoreKeeperApp.controller('ScoreController', function ($scope) {
 	
-	$scope.game = {
-		nameIsAccepted : false,
-		isActive : false,
-		name : ""
+	$scope.startNewGame = function(){
+		game.isActive = false;
+		game.nameIsAccepted = false;
+		game.name = "";
+		
+		newPlayer.Name = '';
+		newGame.Name = '';
+		$('#newGameInput').focus();
 	};
-	var game = $scope.game;
-
-	$scope.players = [];
-	var players = $scope.players
-
-	$scope.newPlayer = {name: ''};
 	
-	var newPlayer = $scope.newPlayer;
-	
-	$("#newGameInput").focus();
-  
-	
-	$scope.acceptGameName = function(name){
-		game.name = name;
+	$scope.acceptGameName = function(){
+		game.name = newGame.Name;
 		game.nameIsAccepted = true;
 		$('#newPlayerInput').focus();
 	};
 	
-	$scope.addPlayer = function(newPlayerName){
+	$scope.addPlayer = function(){
 		//ToDo: validate dupe players
 		players.push(
 			{
-				'name': newPlayerName,
+				'name': newPlayer.Name,
 				'points': [],
 				'roundPoints': '',
 				'total': 0
 			}
 		);
-		newPlayer.name = "";
+		newPlayer.Name = "";
 		$('#newPlayerInput').focus();
 	};
 	
@@ -55,4 +48,22 @@ scoreKeeperApp.controller('ScoreController', function ($scope) {
 			players[i].roundPoints = "";
 		}
 	};
+	
+	$scope.game = {};
+	var game = $scope.game;
+
+	$scope.players = [];
+	var players = $scope.players
+
+	$scope.newGame = {};
+	var newGame = $scope.newGame;
+	
+	$scope.newPlayer = {};
+	var newPlayer = $scope.newPlayer;
+	
+	//First time init
+	$scope.startNewGame();
+	
+	$("#newGameInput").focus();
+	
 });
