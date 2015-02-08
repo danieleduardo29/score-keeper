@@ -31,6 +31,7 @@ scoreKeeperApp.controller('ScoreController', function ($scope) {
 			{
 				'name': newPlayerName,
 				'points': [],
+				'roundPoints': '',
 				'total': 0
 			}
 		);
@@ -40,5 +41,18 @@ scoreKeeperApp.controller('ScoreController', function ($scope) {
 	
 	$scope.startGame = function(){
 		game.isActive = true;
+	};
+	
+	$scope.addRoundPoints = function(){
+		for(i in players){
+			
+			players[i].points.push(
+				{
+					'value' : players[i].roundPoints
+				}
+			);
+			players[i].total = players[i].total + players[i].roundPoints;
+			players[i].roundPoints = "";
+		}
 	};
 });

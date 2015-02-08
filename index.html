@@ -116,17 +116,16 @@
 				</table>
 			</div>
 		
-			<form class="form-horizontal" submit="#">
+			<form class="form-horizontal" name="addRoundPointsForm" ng-submit="addRoundPointsForm.$valid && addRoundPoints()" novalidate>
 				
 				<div class="form-group" ng-repeat="player in players">
-					<label for="input1" class="col-xs-4 col-sm-3 control-label">{{ player.name }}</label>
+					<label for="input{{$index}}" class="col-xs-4 col-sm-3 control-label">{{ player.name }}</label>
 					<div class="col-xs-8 col-sm-9">
-						<input type="number" class="form-control" id="input{{$index}}" placeholder="{{player.name}}">
+						<input type="number" class="form-control" id="input{{$index}}" ng-model="player.roundPoints" placeholder="Write the {{player.name}}'s round points" required>
 					</div>
 				</div>
 				
-				
-				<button type="button" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Add Round #{{players[0].points.length+1}} Points</button>
 			</form>
 		
 		</div> <!-- /mainScoreKeeper -->
